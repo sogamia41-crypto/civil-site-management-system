@@ -1,4 +1,4 @@
-```python
+
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import sqlite3
 from pathlib import Path
@@ -767,4 +767,3 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
-```
