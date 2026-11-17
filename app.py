@@ -93,4 +93,68 @@ def init_db():
 
 def seed():
     conn = get_db()
+    @app.route("/tasks", methods=["GET", "POST"])
+def tasks():
+    conn = get_db()
 
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        category = request.form.get("category", "行政")
+        task_date = request.form.get("task_date", app.config["TODAY"])
+        note = request.form.get("note", "").strip()
+
+        if not title:
+            flash("請輸入待辦事項")
+            conn.close()
+            return redirect(url_for("tasks"))
+
+        conn.execute("""
+            INSERT INTO tasks
+            (title, category, task_date, status, note)
+            VALUES (?, ?, ?, '待處理', ?)
+        """, (title, category, task_date, note))
+
+        conn.commit()
+        conn.close()
+
+        flash("待辦事項新增成功")
+        return redirect(url_for("tasks"))
+
+    tasks = conn.execute("""
+        SELECT *
+        FROM tasks
+        ORDER BY task_date DESC, id DESC
+    """).fetchall()
+
+    conn.close()
+
+    return render_template("tasks.html", tasks=tasks)
+@app.route("/tasks/update/<int:id>", methods=["POST"])
+def task_update(id):
+    status = request.form.get("status", "待處理")
+
+    conn = get_db()
+
+    conn.execute("""
+        UPDATE tasks
+        SET status = ?
+        WHERE id = ?
+    """, (status, id))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("tasks"))
+@app.route("/tasks/delete/<int:id>", methods=["POST"])
+def task_delete(id):
+    conn = get_db()
+
+    conn.execute("""
+        DELETE FROM tasks
+        WHERE id = ?
+    """, (id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("tasks"))
