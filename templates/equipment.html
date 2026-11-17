@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block content %}<h1>小型機具租借登記</h1>
+<section class="panel"><form method="post" class="formgrid">
+<input name="name" placeholder="機具：夯實機/發電機" required><input name="borrower" placeholder="借用人/班組" required>
+<input name="checkout_date" type="date" required><input name="note" placeholder="備註"><button>登記借出</button></form></section>
+<section class="panel"><table><tr><th>機具</th><th>借用人</th><th>借出日期</th><th>歸還日期</th><th>狀態</th><th>操作</th></tr>
+{% for e in equipment %}<tr><td>{{e.name}}</td><td>{{e.borrower}}</td><td>{{e.checkout_date}}</td><td>{{e.return_date or "—"}}</td><td>{{e.status}}</td>
+<td>{% if e.status=="借出" %}<form method="post" action="/equipment/return/{{e.id}}"><button>登記歸還</button></form>{% else %}—{% endif %}</td></tr>{% endfor %}</table></section>{% endblock %}

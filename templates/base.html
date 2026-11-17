@@ -1,0 +1,8 @@
+<!doctype html><html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>土木工地管理系統</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+</head><body>
+<header><div class="brand">🏗️ 土木工地日常行政與材料進出貨管理系統</div>
+<nav><a href="/">儀表板</a><a href="/materials">材料</a><a href="/logs">進出貨</a><a href="/vendors">協力廠商</a><a href="/expenses">零用金</a><a href="/equipment">機具</a></nav></header>
+<main>{% with messages=get_flashed_messages() %}{% if messages %}<div class="flash">{{ messages[-1] }}</div>{% endif %}{% endwith %}{% block content %}{% endblock %}</main>
+<footer>AI Agent × Flask × SQLite｜土木工地行政數位化</footer></body></html>

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block content %}<h1>協力廠商名錄</h1>
+<section class="panel"><h2>新增廠商</h2><form method="post" class="formgrid">
+<input name="name" placeholder="廠商名稱" required><input name="trade" placeholder="工種：水電/泥作/鋼構" required>
+<input name="contact" placeholder="聯絡人"><input name="phone" placeholder="電話"><input name="tax_id" placeholder="統編">
+<input name="rating" type="number" min="1" max="5" value="5" placeholder="評價"><input name="note" placeholder="備註"><button>新增</button></form></section>
+<section class="panel"><table><tr><th>廠商</th><th>工種</th><th>聯絡人</th><th>電話</th><th>統編</th><th>評價</th><th>操作</th></tr>
+{% for v in vendors %}<tr><td>{{v.name}}</td><td>{{v.trade}}</td><td>{{v.contact}}</td><td>{{v.phone}}</td><td>{{v.tax_id}}</td><td>{{"★"*v.rating}}</td>
+<td><form method="post" action="/vendors/delete/{{v.id}}" onsubmit="return confirm('確定刪除？')"><button class="dangerbtn">刪除</button></form></td></tr>{% endfor %}</table></section>{% endblock %}

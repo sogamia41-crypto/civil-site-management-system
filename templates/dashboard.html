@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block content %}
+<h1>工地管理儀表板</h1>
+<div class="cards">
+<div class="card"><b>{{stats.vendors}}</b><span>協力廠商</span></div>
+<div class="card"><b>{{stats.materials}}</b><span>材料種類</span></div>
+<div class="card"><b>{{stats.logs}}</b><span>進出貨紀錄</span></div>
+<div class="card"><b>{{stats.expenses}}</b><span>零用金紀錄</span></div>
+<div class="card"><b>{{stats.equipment}}</b><span>目前借出機具</span></div>
+</div>
+<section class="panel"><h2>材料庫存即時監控</h2>
+<table><tr><th>材料</th><th>單位</th><th>目前庫存</th><th>最低庫存</th><th>狀態</th></tr>
+{% for m in materials %}<tr class="{% if m.stock < m.min_stock %}danger{% endif %}">
+<td>{{m.name}}</td><td>{{m.unit}}</td><td>{{"%.2f"|format(m.stock)}}</td><td>{{m.min_stock}}</td>
+<td>{% if m.stock < m.min_stock %}<span class="badge red">⚠ 庫存不足，請叫料</span>{% else %}<span class="badge green">正常</span>{% endif %}</td>
+</tr>{% endfor %}</table></section>
+{% endblock %}
